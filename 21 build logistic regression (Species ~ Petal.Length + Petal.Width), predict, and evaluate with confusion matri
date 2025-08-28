@@ -1,0 +1,23 @@
+
+library(nnet)      
+library(caret)      
+
+
+data(iris)
+
+set.seed(123)  
+
+
+sample_index <- sample(1:nrow(iris), 0.8 * nrow(iris))
+train_data <- iris[sample_index, ]
+test_data  <- iris[-sample_index, ]
+
+
+model <- multinom(Species ~ Petal.Length + Petal.Width, data=train_data)
+
+
+pred <- predict(model, newdata=test_data)
+
+
+cm <- confusionMatrix(pred, test_data$Species)
+print(cm)
